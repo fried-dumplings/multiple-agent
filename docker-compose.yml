@@ -1,0 +1,64 @@
+services:
+  api: &main_app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: multiple_agent:${MULTIPLE_AGENT_VERSION:-latest}
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      MULTIPLE_AGENT_HOST: 0.0.0.0
+      MULTIPLE_AGENT_DB_HOST: multiple_agent-db
+      MULTIPLE_AGENT_DB_PORT: 3306
+      MULTIPLE_AGENT_DB_USER: multiple_agent
+      MULTIPLE_AGENT_DB_PASS: multiple_agent
+      MULTIPLE_AGENT_DB_BASE: multiple_agent
+      MULTIPLE_AGENT_REDIS_HOST: multiple_agent-redis
+
+  db:
+    image: mysql:8.4
+    hostname: multiple_agent-db
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: "root"
+      MYSQL_ROOT_PASSWORD: "multiple_agent"
+      MYSQL_USER: "multiple_agent"
+      MYSQL_PASSWORD: "multiple_agent"
+      MYSQL_DATABASE: "multiple_agent"
+      MYSQL_HOST: "0.0.0.0"
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - --user=multiple_agent
+        - --password=multiple_agent
+      interval: 10s
+      timeout: 5s
+      retries: 40
+    volumes:
+      - "multiple_agent-db-data:/bitnami/mysql/data"
+
+  redis:
+    image: bitnami/redis:6.2.5
+    hostname: "multiple_agent-redis"
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 50
+
+
+
+volumes:
+  multiple_agent-db-data:
+    name: multiple_agent-db-data

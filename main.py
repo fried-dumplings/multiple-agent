@@ -1,8 +1,20 @@
-import asyncio
+import uvicorn
 
-async def main():
-  print("HELLO WORLD")
-  pass
+from settings import settings
 
-if __name__ == "__main__":    
-  asyncio.run(main())
+
+def main() -> None:
+    """Entrypoint of the application."""
+    uvicorn.run(
+        "web.application:app",
+        workers=settings.workers_count,
+        host=settings.host,
+        port=settings.port,
+        reload=settings.reload,
+        log_level=settings.log_level.value.lower(),
+        factory=True,
+    )
+
+
+if __name__ == "__main__":
+    main()
