@@ -3,6 +3,8 @@ from pydantic import BaseModel
 from typing import Optional
 # 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
 
+API_KEY = ""
+BASE_URL = ""
 
 class Message(BaseModel):
     role: str
