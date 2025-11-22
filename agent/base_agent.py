@@ -28,7 +28,7 @@ class BaseAgent:
                 [tool.model_dump_json(include=include) for tool in self.tool_list],
                 ensure_ascii=False,
             )
-            print(f"tool_list_str: {tool_list_str}")
+            # print(f"tool_list_str: {tool_list_str}")
             self.messages.append(
                 ChatCompletionSystemMessageParam(
                     role="system", content=f"{prompt}\n{tool_list_str}"

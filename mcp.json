@@ -27,6 +27,13 @@
                 "D:\\works\\multiple-agent"
             ]
         },
+        "desktop-commander": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@wonderwhy-er/desktop-commander@latest"
+            ]
+        },
         "taskmanager": {
             "command": "npx",
             "args": [

@@ -5,7 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "agno>=2.2.11",
+    "ddgs>=9.9.1",
+    "lxml-html-clean>=0.4.3",
     "mcp>=1.11.0",
+    "newspaper4k>=0.9.4.1",
     "openai>=1.96.1",
     "pydantic>=2.11.7",
     "typing>=3.10.0.0",
